@@ -6,6 +6,12 @@ class Game extends Component {
   constructor(props) {
     super(props)
   }
+  componentWillUpdate() {
+    const { store } = this.context
+    if (store.getState().game.lost) {
+      this.stopGame()
+    }
+  }
   startGame() {
     const { store } = this.context
     store.dispatch({
@@ -15,6 +21,7 @@ class Game extends Component {
     if(!this.interval) {
       this.interval = setInterval(this.timer.bind(this), 1000)
     }
+    document.getElementById('gun').focus()
   }
   stopGame() {
     const cleared = clearInterval(this.interval)
@@ -31,10 +38,13 @@ class Game extends Component {
     const board = store.getState().game.board
     return (
       <div className="game">
+        { store.getState().game.lost ? <div>YOU LOST BITCH</div> : '' }
         <Board board={board} />
         <Form />
         <button onClick={this.startGame.bind(this)} >Start</button>
         <button onClick={this.stopGame.bind(this)} >Stop</button>
+        <div>{ store.getState().game.time }</div>
+        <div>{ store.getState().game.score }</div>
       </div>
     )
   }
