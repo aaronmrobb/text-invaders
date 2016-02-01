@@ -1,0 +1,38 @@
+
+.game {
+  width: 600px;
+  display: block;
+  margin: auto;
+  .board {
+    float: left;
+    border: 1px solid #eee;
+    border-bottom: none;
+    height: 600px;
+    width: 100%;
+    display: inline-block;
+    .row {
+      margin: 0;
+      .cell {
+        text-align: center;
+        height: 75px;
+        line-height: 25px;
+        padding: 25px 0;
+        float: left;
+        width: 20%;
+        display: inline-block;
+      }
+    }
+  }
+  .turret {
+    float: left;
+    width: 100%;
+    #gun {
+      text-align: center;
+      width: 100%;
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+}
