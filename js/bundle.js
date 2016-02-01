@@ -20909,7 +20909,20 @@
 
 	  switch (action.type) {
 	    case 'START_GAME':
+	      state.playing = true;
 	      return state;
+	    case 'RESTART_GAME':
+	      return {
+	        playing: false,
+	        board: new Array(8).fill('x').map(function (row) {
+	          return new Array(5).fill('');
+	        }),
+	        score: 0,
+	        time: 0,
+	        speed: 5,
+	        difficulty: 3,
+	        lost: false
+	      };
 	    case 'TIME_INCREASE':
 	      state.time = state.time + 1;
 	      if (state.time % 30 === 0) {
@@ -29525,6 +29538,17 @@
 	      this.interval = undefined;
 	    }
 	  }, {
+	    key: 'restartGame',
+	    value: function restartGame() {
+	      var store = this.context.store;
+
+	      var cleared = clearInterval(this.interval);
+	      this.interval = undefined;
+	      store.dispatch({
+	        type: 'RESTART_GAME'
+	      });
+	    }
+	  }, {
 	    key: 'timer',
 	    value: function timer() {
 	      var store = this.context.store;
@@ -29549,15 +29573,14 @@
 	        ) : '',
 	        _react2.default.createElement(_board2.default, { board: board }),
 	        _react2.default.createElement(_form2.default, null),
-	        _react2.default.createElement(
+	        store.getState().game.playing ? _react2.default.createElement(
+	          'button',
+	          { onClick: this.restartGame.bind(this) },
+	          'Restart'
+	        ) : _react2.default.createElement(
 	          'button',
 	          { onClick: this.startGame.bind(this) },
 	          'Start'
-	        ),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.stopGame.bind(this) },
-	          'Stop'
 	        ),
 	        _react2.default.createElement(
 	          'div',

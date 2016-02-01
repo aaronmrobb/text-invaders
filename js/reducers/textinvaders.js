@@ -18,7 +18,20 @@ const initialState = {
 const game = (state = initialState, action) => {
   switch(action.type) {
     case 'START_GAME':
+      state.playing = true
       return state
+    case 'RESTART_GAME':
+      return {
+        playing: false,
+        board: new Array(8).fill('x').map((row) => {
+          return new Array(5).fill('')
+        }),
+        score: 0,
+        time: 0,
+        speed: 5,
+        difficulty: 3,
+        lost: false
+      }
     case 'TIME_INCREASE':
       state.time = state.time + 1
       if(state.time % 30 === 0) {
